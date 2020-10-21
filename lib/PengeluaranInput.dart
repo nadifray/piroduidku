@@ -5,12 +5,12 @@ import 'package:piroduidku/Tabungan.dart';
 import 'package:piroduidku/TabunganList.dart';
 import 'package:piroduidku/history_list.dart';
 
-class ExpenseInput extends StatefulWidget{
+class PengeluaranInput extends StatefulWidget{
   @override
-  _InputState createState() => _InputState();
+  _PInputState createState() => _PInputState();
 }
 
-class _InputState extends State<ExpenseInput> {
+class _PInputState extends State<PengeluaranInput> {
   card selectedTab;
   Kategori selectedCat;
   DateTime selectedDate = DateTime.now();
@@ -47,9 +47,9 @@ class _InputState extends State<ExpenseInput> {
           Container(
             alignment: Alignment.centerLeft,
             child: Text("Kategori",textAlign: TextAlign.left, style: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black54,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black54,
             ),),
           ),
           Container(
@@ -183,7 +183,7 @@ class _InputState extends State<ExpenseInput> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: Text("Pemasukkan"), centerTitle: true, backgroundColor: Colors.green,),
+      appBar: AppBar(title: Text("Pengeluaran"), centerTitle: true, backgroundColor: Colors.green,),
       body: Container(
         margin: EdgeInsets.all(24),
         child: Form(
@@ -193,14 +193,14 @@ class _InputState extends State<ExpenseInput> {
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1.0,
+                    border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1.0,
+                        )
                     )
-                  )
                 ),
-                child: Text("Masukkan pemasukkan anda", style: TextStyle(
+                child: Text("Masukkan pengeluaran anda", style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w300,
                 ),),
@@ -224,7 +224,7 @@ class _InputState extends State<ExpenseInput> {
 
                   _formKey.currentState.save();
                   if (_formKey.currentState.validate()){
-                    ListOfHistory.add(history(date: selectedDate, kategori: selectedCat.name, jumlah: _jumlah, tabungan: selectedTab.name, image: selectedCat.icon,expense: 1));
+                    ListOfHistory.add(history(date: selectedDate, kategori: selectedCat.name, jumlah: _jumlah, tabungan: selectedTab.name, image: selectedCat.icon,expense: 0));
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
                       return HomeScreen();
                     }));

@@ -6,17 +6,15 @@ class history{
   String tabungan;
   int jumlah;
   Icon image;
-  int total = 0;
+  int expense;
 
   history({
     this.date,
     this.kategori,
     this.tabungan,
     this.jumlah,
-    this.image
+    this.image,
+    this.expense,
   });
 
-  int get getJumlah{
-    return jumlah;
-  }
 }

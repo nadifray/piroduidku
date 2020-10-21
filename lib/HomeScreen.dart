@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:piroduidku/PengeluaranInput.dart';
 import 'package:piroduidku/ProfilePage.dart';
 import 'package:piroduidku/Tabungan.dart';
-import 'package:piroduidku/addTabungan.dart';
 import 'package:piroduidku/expenseInput.dart';
 import 'package:piroduidku/history_list.dart';
 import 'package:intl/intl.dart';
+import 'package:piroduidku/TabunganList.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,8 +14,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final oCcy = new NumberFormat("#,##0.00", "en_US");
+  final oCcy = new NumberFormat("#,##0", "en_US");
   int _selectedTabIndex = 0;
+
+  int sumPem(List<history> lh){
+    int tot=0;
+    for(int i=0;i<lh.length;i++){
+      if(lh[i].expense == 1) tot += lh[i].jumlah;
+    }
+    return tot;
+  }
+
+  int sumPeng(List<history> lh){
+    int tot=0;
+    for(int i=0;i<lh.length;i++){
+      if(lh[i].expense == 0) tot += lh[i].jumlah;
+    }
+    return tot;
+  }
+
+  int sumTabungan(List<card> lc){
+    int tot=0;
+    for(int i=0;i<lc.length;i++){
+      tot += lc[i].jumlah;
+    }
+    return tot;
+  }
 
 
 
@@ -87,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.w500,
                       color: Colors.white
                     ),),
-                    Text("IDR 0,00", style: GoogleFonts.inter(
+                    Text("Rp ${oCcy.format(sumTabungan(ListOfCard))}", style: GoogleFonts.inter(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: Colors.white
@@ -192,17 +217,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
 
-                                      Text("RP 0,00", style: GoogleFonts.inter(
-                                          fontSize: 28,
+                                      Text("Rp ${oCcy.format(sumPeng(ListOfHistory))}", style: GoogleFonts.inter(
+                                          fontSize: 22,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.red
                                       ),),
                                       IconButton(
                                         icon: Image.asset('assets/images/plus-red.png'),
-                                        iconSize: 50,
+                                        iconSize: 40,
                                         onPressed: () {
                                           Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                            return ExpenseInput();
+                                            return PengeluaranInput();
                                           }));
                                         },
                                       )
@@ -219,14 +244,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
 
-                                      Text("RP 0,00", style: GoogleFonts.inter(
-                                          fontSize: 28,
+                                      Text("Rp ${oCcy.format(sumPem(ListOfHistory))}", style: GoogleFonts.inter(
+                                          fontSize: 22,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.lightGreen
                                       ),),
                                       IconButton(
                                         icon: Image.asset('assets/images/plus.png'),
-                                        iconSize: 50,
+                                        iconSize: 40,
                                         onPressed: () {
                                           Navigator.push(context, MaterialPageRoute(builder: (context) {
                                             return ExpenseInput();
@@ -311,11 +336,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Row(
                           children: <Widget>[
-                            Text("Rp ${oCcy.format(ListOfHistory[index].jumlah)}", style: GoogleFonts.inter(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.blueGrey,
-                            ),),
+                              Text("Rp ${oCcy.format(ListOfHistory[index].jumlah)}", style: GoogleFonts.inter(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.blueGrey,
+                              ),),
                           ],
                         ),
                       ],
@@ -350,11 +375,5 @@ class CustomShape extends CustomClipper<Path> {
 
 
 List<history> ListOfHistory = [
-  history(
-    date: DateTime.now(),
-    kategori: "Transportasi",
-    jumlah: 100000,
-    tabungan: "Rekening BCA",
-    image: Icon(Icons.directions_bus,color:  const Color(0xFF167F67),)
-  ),
+
 ];
