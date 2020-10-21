@@ -76,7 +76,7 @@ class _TabunganScreenState extends State<TabunganScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Rp ${oCcy.format(int.parse(ListOfCard[index].jumlah))}", style: GoogleFonts.inter(
+                  Text("Rp ${oCcy.format(ListOfCard[index].jumlah)}", style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey
@@ -221,6 +221,6 @@ List<card> ListOfCard = [
   card(
       name: "Gopay",
       kategori: "E-Money",
-      jumlah: "0",
+      jumlah: 0,
   ),
 ];

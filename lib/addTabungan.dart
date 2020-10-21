@@ -15,7 +15,7 @@ class _AddTabState extends State<AddTabungan> {
   String _name;
   String _kategori;
   String _tabungan;
-  String _jumlah;
+  int _jumlah;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -47,7 +47,7 @@ class _AddTabState extends State<AddTabungan> {
         }
       },
       onSaved: (String value){
-        _jumlah = value;
+        _jumlah = int.parse(value);
       },
     );
   }

@@ -4,8 +4,9 @@ class history{
   DateTime date;
   String kategori;
   String tabungan;
-  String jumlah;
+  int jumlah;
   Icon image;
+  int total = 0;
 
   history({
     this.date,
@@ -14,4 +15,8 @@ class history{
     this.jumlah,
     this.image
   });
+
+  int get getJumlah{
+    return jumlah;
+  }
 }

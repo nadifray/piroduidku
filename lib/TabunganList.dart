@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 class card{
   String name;
   String kategori;
-  String jumlah;
+  int jumlah;
 
   card({
     this.name,

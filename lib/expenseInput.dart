@@ -17,7 +17,7 @@ class _InputState extends State<ExpenseInput> {
   String _date;
   String _kategori;
   String _tabungan;
-  String _jumlah;
+  int _jumlah;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -33,7 +33,8 @@ class _InputState extends State<ExpenseInput> {
         }
       },
       onSaved: (String value){
-        _jumlah = value;
+        _jumlah = int.parse(value);
+        selectedTab.jumlah += int.parse(value);
       },
     );
   }

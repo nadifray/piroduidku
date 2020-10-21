@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final oCcy = new NumberFormat("#,##0.00", "en_US");
   int _selectedTabIndex = 0;
 
-  final List<Widget> _children = [];
+
 
   void _onTap(int index) {
     setState(() {
@@ -311,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Row(
                           children: <Widget>[
-                            Text("Rp ${oCcy.format(int.parse(ListOfHistory[index].jumlah))}", style: GoogleFonts.inter(
+                            Text("Rp ${oCcy.format(ListOfHistory[index].jumlah)}", style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
                               color: Colors.blueGrey,
@@ -349,12 +349,11 @@ class CustomShape extends CustomClipper<Path> {
 }
 
 
-
 List<history> ListOfHistory = [
   history(
     date: DateTime.now(),
     kategori: "Transportasi",
-    jumlah: "100000",
+    jumlah: 100000,
     tabungan: "Rekening BCA",
     image: Icon(Icons.directions_bus,color:  const Color(0xFF167F67),)
   ),
