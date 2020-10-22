@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.white),
                             ),
                             Text(
-                              "Nadif Rayhan",
+                              "Entre Kel 2",
                               style: GoogleFonts.inter(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w700,
