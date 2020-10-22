@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class card{
   String name;
   String kategori;

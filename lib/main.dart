@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:piroduidku/HomeScreen.dart';
+import 'file:///D:/Programming/Android/piroduidku3/lib/Page/home_page.dart';
 
 void main() => runApp(MyApp());
 

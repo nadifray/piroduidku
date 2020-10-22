@@ -1,42 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:piroduidku/HomeScreen.dart';
-import 'package:piroduidku/Tabungan.dart';
-import 'package:piroduidku/TabunganList.dart';
-import 'package:piroduidku/history_list.dart';
+import 'package:piroduidku/Class/tabungan_list.dart';
+import 'package:piroduidku/Class/transaction_list.dart';
+import 'package:piroduidku/Page/home_page.dart';
+import 'package:piroduidku/Page/tabungan_page.dart';
+import 'package:piroduidku/config.dart';
 
-class PengeluaranInput extends StatefulWidget{
+class AddExpense extends StatefulWidget {
   @override
-  _PInputState createState() => _PInputState();
+  _AddExpense createState() => _AddExpense();
 }
 
-class _PInputState extends State<PengeluaranInput> {
+class _AddExpense extends State<AddExpense> {
   card selectedTab;
   Kategori selectedCat;
   DateTime selectedDate = DateTime.now();
-  String _date;
-  String _kategori;
-  String _tabungan;
   int _jumlah;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget _buildJumlah(){
+  Widget _tambahPengeluaran() {
+    return InkWell(
+        onTap: () {
+          if (!_formKey.currentState.validate()) return;
+          _formKey.currentState.save();
+          if (_formKey.currentState.validate()) {
+            ListOfHistory.add(Transaction(
+                date: selectedDate,
+                kategori: selectedCat.name,
+                jumlah: _jumlah,
+                tabungan: selectedTab.name,
+                image: selectedCat.icon,
+                expense: 0));
+            Navigator.pop(context);
+          }
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(vertical: 15),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [color_Submit_1, color_Submit_2])),
+          child: Text(
+            'Tambah Pengeluaran',
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+        ));
+  }
+
+  Widget _buildJumlah() {
     return TextFormField(
       keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-          labelText: 'Jumlah'
-      ),
-      validator: (var value){
+      decoration: InputDecoration(labelText: 'Jumlah'),
+      validator: (var value) {
         var intValue = int.tryParse(value);
-        if(value == null){
+        if (value == null) {
           return "Kolom jumlah harus diisi";
-        }
-        else {
-          return intValue > selectedTab.jumlah ? 'Jumlah tabungan tidak mencukupi' : null;
+        } else {
+          return intValue > selectedTab.jumlah
+              ? 'Jumlah tabungan tidak mencukupi'
+              : null;
         }
       },
-      onSaved: (String value){
+      onSaved: (String value) {
         _jumlah = int.parse(value);
         selectedTab.jumlah -= int.parse(value);
       },
@@ -183,58 +220,58 @@ class _PInputState extends State<PengeluaranInput> {
       });
   }
 
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: Text("Pengeluaran"), centerTitle: true, backgroundColor: Colors.green,),
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+        ),
+        title: Row(
+          children: <Widget>[
+            IconButton(
+              padding: EdgeInsets.only(right: 10),
+              icon: Image.asset('assets/images/plus-red.png'),
+            ),
+            Text('Tambah Pengeluaran', style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w700)),
+          ],
+        ),
+      ),
       body: Container(
-        margin: EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey,
-                          width: 1.0,
-                        )
-                    )
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+//                  SizedBox(height: 10),
+                    _buildJumlah(),
+                    SizedBox(height: 30),
+                    _buildKategori(),
+                    SizedBox(height: 30),
+                    _buildTabungan(),
+                    SizedBox(height: 30),
+                    _buildDate(),
+                    SizedBox(height: 30),
+                  ],
                 ),
-                child: Text("Masukkan pengeluaran anda", style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w300,
-                ),),
               ),
-              _buildJumlah(),
-              _buildKategori(),
-              _buildTabungan(),
-              _buildDate(),
-              SizedBox(
-                height: 100,
-              ),
-              RaisedButton(
-                child: Text("Submit",),
-                onPressed: () {
-                  if(!_formKey.currentState.validate()){
-                    return;
-                  }
-
-
-
-
-                  _formKey.currentState.save();
-                  if (_formKey.currentState.validate()){
-                    ListOfHistory.add(history(date: selectedDate, kategori: selectedCat.name, jumlah: _jumlah, tabungan: selectedTab.name, image: selectedCat.icon,expense: 0));
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return HomeScreen();
-                    }));
-                  }
-                },
-              )
+              SizedBox(height: height * .03),
+              _tambahPengeluaran(),
             ],
           ),
         ),
@@ -250,9 +287,14 @@ class Kategori {
 }
 
 List<Kategori> cat = <Kategori>[
-  const Kategori('Uang Transportasi',Icon(Icons.directions_bus,color:  const Color(0xFF167F67),)),
-  const Kategori('Makan/Minum',Icon(Icons.fastfood,color:  const Color(0xFF167F67),)),
-  const Kategori('Obat-obatan',Icon(Icons.local_hospital,color:  const Color(0xFF167F67),)),
-  const Kategori('Hiburan',Icon(Icons.videogame_asset,color:  const Color(0xFF167F67),)),
-  const Kategori('Belanja Kebutuhan',Icon(Icons.shopping_cart,color:  const Color(0xFF167F67),)),
+  const Kategori('Uang Transportasi',
+      Icon(Icons.directions_bus, color: const Color(0xFF167F67),)),
+  const Kategori(
+      'Makan/Minum', Icon(Icons.fastfood, color: const Color(0xFF167F67),)),
+  const Kategori('Obat-obatan',
+      Icon(Icons.local_hospital, color: const Color(0xFF167F67),)),
+  const Kategori(
+      'Hiburan', Icon(Icons.videogame_asset, color: const Color(0xFF167F67),)),
+  const Kategori('Belanja Kebutuhan',
+      Icon(Icons.shopping_cart, color: const Color(0xFF167F67),)),
 ];

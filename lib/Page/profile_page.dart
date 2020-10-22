@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'package:piroduidku/HomeScreen.dart';
-import 'package:piroduidku/Tabungan.dart';
+import 'package:flutter/material.dart';
+import 'package:piroduidku/customShape.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -9,15 +8,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfileState extends State<ProfilePage> {
-  int _selectedTabIndex = 2;
-
-  Widget _BuildCard(){
+  Widget _BuildCard() {
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       itemCount: ListOfProfile.length,
       padding: EdgeInsets.only(left: 16, right: 16),
       shrinkWrap: true,
-      itemBuilder: (context, index){
+      itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Card(
@@ -31,7 +28,7 @@ class _ProfileState extends State<ProfilePage> {
                 children: <Widget>[
                   IconButton(
                     onPressed: () {},
-                    icon: ListOfProfile[index].iconimg
+                    icon: ListOfProfile[index].iconimg,
                   ),
                   SizedBox(width: 24.0),
                   Column(
@@ -63,48 +60,9 @@ class _ProfileState extends State<ProfilePage> {
     );
   }
 
-  void _onTap(int index) {
-    setState(() {
-      _selectedTabIndex = index;
-    });
-    if(_selectedTabIndex==0){
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return HomeScreen();
-      }));
-    }
-    else if(_selectedTabIndex==1){
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return TabunganScreen();
-      }));
-    }
-    else if(_selectedTabIndex==2){
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return ProfilePage();
-      }));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedTabIndex,
-        onTap: _onTap,
-        items: [
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.account_balance_wallet),
-            title: new Text('Tabunganku'),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profil')
-          )
-        ],
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -124,64 +82,51 @@ class StackContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300.0,
-      child: Stack(
-        children: <Widget>[
-          Container(),
-          ClipPath(
-            clipper: MyCustomClipper(),
-            child: Container(
-              height: 300.0,
-              decoration: BoxDecoration(
-                color: Colors.green,
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: -MediaQuery
+              .of(context)
+              .size
+              .height * .15,
+          left: -MediaQuery
+              .of(context)
+              .size
+              .width * .4,
+          child: BeszContainer(),
+        ),
+        Container(
+            height: 300.0,
+            child: Stack(children: <Widget>[
+              Container(),
+              Align(
+                alignment: Alignment(0, 1),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    CircularProfileAvatar(
+                      "",
+                      child: Image.asset("assets/images/profile.jpg"),
+                      borderWidth: 4.0,
+                      radius: 60.0,
+                    ),
+                    SizedBox(height: 4.0),
+                    Text(
+                      "PiroDuidku",
+                      style: TextStyle(
+                        fontSize: 26.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
-          Align(
-            alignment: Alignment(0, 1),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                CircularProfileAvatar(
-                  "",
-                  child: Image.asset("assets/images/profile.jpg"),
-                  borderWidth: 4.0,
-                  radius: 60.0,
-                ),
-                SizedBox(height: 4.0),
-                Text(
-                  "PiroDuidku",
-                  style: TextStyle(
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-        ],
-      ),
+            ]))
+      ],
     );
   }
 }
 
-class MyCustomClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width, size.height - 150);
-    path.lineTo(0, size.height);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
-  }
-}
 
 class profile{
   String act;

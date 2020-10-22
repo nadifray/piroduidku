@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class history{
+class Transaction{
   DateTime date;
   String kategori;
   String tabungan;
@@ -8,7 +8,7 @@ class history{
   Icon image;
   int expense;
 
-  history({
+  Transaction({
     this.date,
     this.kategori,
     this.tabungan,
