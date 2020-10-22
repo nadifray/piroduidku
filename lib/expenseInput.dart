@@ -28,7 +28,7 @@ class _InputState extends State<ExpenseInput> {
           labelText: 'Jumlah'
       ),
       validator: (String value){
-        if(value.isEmpty){
+        if(value == null){
           return "Kolom jumlah harus diisi";
         }
       },
@@ -146,9 +146,9 @@ class _InputState extends State<ExpenseInput> {
             RaisedButton(
               onPressed: () => _selectDate(context), // Refer step 3
               child: Text(
-                'Select date',
+                'Pilih Tanggal',
                 style:
-                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               color: Colors.greenAccent,
             ),
@@ -246,8 +246,7 @@ class Kategori {
 }
 
 List<Kategori> cat = <Kategori>[
-  const Kategori('Transportasi',Icon(Icons.directions_bus,color:  const Color(0xFF167F67),)),
-  const Kategori('Uang Makan',Icon(Icons.fastfood,color:  const Color(0xFF167F67),)),
-  const Kategori('Orang tua',Icon(Icons.attach_money,color:  const Color(0xFF167F67),)),
+  const Kategori('Transfer Masuk',Icon(Icons.transit_enterexit,color:  const Color(0xFF167F67),)),
+  const Kategori('Pemberian Orang tua',Icon(Icons.attach_money,color:  const Color(0xFF167F67),)),
   const Kategori('Gaji bulanan',Icon(Icons.work,color:  const Color(0xFF167F67),)),
 ];

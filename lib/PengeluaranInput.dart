@@ -27,14 +27,18 @@ class _PInputState extends State<PengeluaranInput> {
       decoration: InputDecoration(
           labelText: 'Jumlah'
       ),
-      validator: (String value){
-        if(value.isEmpty){
+      validator: (var value){
+        var intValue = int.tryParse(value);
+        if(value == null){
           return "Kolom jumlah harus diisi";
+        }
+        else {
+          return intValue > selectedTab.jumlah ? 'Jumlah tabungan tidak mencukupi' : null;
         }
       },
       onSaved: (String value){
         _jumlah = int.parse(value);
-        selectedTab.jumlah += int.parse(value);
+        selectedTab.jumlah -= int.parse(value);
       },
     );
   }
@@ -146,9 +150,9 @@ class _PInputState extends State<PengeluaranInput> {
             RaisedButton(
               onPressed: () => _selectDate(context), // Refer step 3
               child: Text(
-                'Select date',
+                'Pilih Tanggal',
                 style:
-                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               color: Colors.greenAccent,
             ),
@@ -246,8 +250,9 @@ class Kategori {
 }
 
 List<Kategori> cat = <Kategori>[
-  const Kategori('Transportasi',Icon(Icons.directions_bus,color:  const Color(0xFF167F67),)),
-  const Kategori('Uang Makan',Icon(Icons.fastfood,color:  const Color(0xFF167F67),)),
-  const Kategori('Orang tua',Icon(Icons.attach_money,color:  const Color(0xFF167F67),)),
-  const Kategori('Gaji bulanan',Icon(Icons.work,color:  const Color(0xFF167F67),)),
+  const Kategori('Uang Transportasi',Icon(Icons.directions_bus,color:  const Color(0xFF167F67),)),
+  const Kategori('Makan/Minum',Icon(Icons.fastfood,color:  const Color(0xFF167F67),)),
+  const Kategori('Obat-obatan',Icon(Icons.local_hospital,color:  const Color(0xFF167F67),)),
+  const Kategori('Hiburan',Icon(Icons.videogame_asset,color:  const Color(0xFF167F67),)),
+  const Kategori('Belanja Kebutuhan',Icon(Icons.shopping_cart,color:  const Color(0xFF167F67),)),
 ];
